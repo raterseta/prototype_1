@@ -17,6 +17,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _authState = MutableLiveData<AuthState>()
     val authState: LiveData<AuthState> = _authState
 
+    private val _userName = MutableLiveData<String?>()
+    val userName: LiveData<String?> = _userName
+
     lateinit var googleSignInClient: GoogleSignInClient
 
     private val sharedPreferences = application.getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
@@ -47,6 +50,10 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 if (task.isSuccessful) {
                     sharedPreferences.edit().putBoolean("is_authenticated", true).apply()
                     _authState.value = AuthState.Authenticated
+
+                    // Set the user's display name
+                    _userName.value = account.displayName
+
                     onResult(true, null)
                 } else {
                     _authState.value = AuthState.Error(task.exception?.message ?: "Unknown error")
@@ -60,6 +67,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         googleSignInClient.signOut().addOnCompleteListener {
             sharedPreferences.edit().putBoolean("is_authenticated", false).apply()
             _authState.value = AuthState.Unauthenticated
+            _userName.value = null  // Clear the user name on sign out
             onSignOutComplete()
         }
     }

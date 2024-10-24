@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -16,12 +17,17 @@ fun HomeActivity(
     authViewModel: AuthViewModel,
     modifier: Modifier = Modifier
 ) {
+    val userName = authViewModel.userName.observeAsState()
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Welcome to Home Page")
+        userName.value?.let { name ->
+            Text(text = "Signed in as $name")
+        } ?: Text(text = "Signed in as Guest")
+//Saya ingin menambahkan nama dari akun google yang sign in
 
         Spacer(modifier = Modifier.height(16.dp))
 
