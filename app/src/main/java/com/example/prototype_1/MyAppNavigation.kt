@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.prototype_1.pages.CreateActivity
 import com.example.prototype_1.pages.HomeActivity
 import com.example.prototype_1.pages.LoginActivity
 
@@ -21,6 +22,9 @@ fun MyAppNavigation(
         }
         composable("home") {
             HomeActivity(navController = navController, authViewModel = authViewModel)
+        }
+        composable("create") {
+            CreateActivity(navController = navController)
         }
     }
 }

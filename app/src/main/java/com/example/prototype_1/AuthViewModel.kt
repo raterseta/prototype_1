@@ -75,6 +75,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     fun isUserAuthenticated(): Boolean {
         return sharedPreferences.getBoolean("is_authenticated", false)
     }
+
+
+
 }
 
 sealed class AuthState {
